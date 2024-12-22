@@ -9,6 +9,7 @@ run_by_system_for_golang() {
     case "$(uname -s)" in
         Linux) os="linux" ;;
         Darwin) os="mac" ;;
+        Android) os="android" ;;
         CYGWIN*|MINGW*|MSYS*|Windows_NT) 
             os="windows"
             ext=".exe"
@@ -21,13 +22,8 @@ run_by_system_for_golang() {
 
     case "$(uname -m)" in
         x86_64) arch="amd64" ;;  # 64-bit Intel/AMD
-        i386|i686) arch="386" ;;  # 32-bit Intel/AMD
         arm64|aarch64) arch="arm64" ;;  # 64-bit ARM
-        armv7) arch="arm" ;;  # 32-bit ARMv7
-        mips) arch="mips" ;;  # MIPS
-        ppc64le) arch="ppc64le" ;;  # PowerPC 64-bit Little Endian
-        s390x) arch="s390x" ;;  # IBM mainframe 64-bit
-        riscv) arch="riscv64" ;;  # RISC-V 64-bit
+        armv7) arch="arm" ;;  # ARMv7
         *) 
             echo "Unsupported architecture"
             exit 1
@@ -55,3 +51,5 @@ echo "JavaScript:"
 time bun run js/index.js
 echo "Go/Golang:"
 time run_by_system_for_golang
+echo "Ruby:"
+time ruby ruby/main.rb

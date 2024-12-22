@@ -1,38 +1,9 @@
-#!/bin/bash
-
-# Function to compile the Go project for multiple OS and architectures
-compile_go_project() {
-    # Declare all OS and architecture combinations
-    declare -a os_list=("linux" "darwin" "windows")
-    declare -a arch_list=("amd64" "386" "arm64" "arm" "mips" "ppc64le" "s390x" "riscv64")
-
-    # Iterate over OS and architecture combinations
-    for os in "${os_list[@]}"; do
-        for arch in "${arch_list[@]}"; do
-            # Set the extension for Windows
-            if [ "$os" == "windows" ]; then
-                ext=".exe"
-            else
-                ext=".bin"  # Default extension for non-Windows
-            fi
-
-            # Build the filename
-            local file="my_go_project_${os}_${arch}${ext}"
-
-            echo "Compiling for $os $arch..."
-
-            # Set GOOS and GOARCH environment variables and run the Go build command
-            GOOS=$os GOARCH=$arch go build -o "$file"
-
-            # Check if the compilation was successful
-            if [ -f "$file" ]; then
-                echo "Compilation successful. File created: $file"
-            else
-                echo "Compilation failed for $os $arch"
-            fi
-        done
-    done
-}
-
 cd go
-compile_go_project
+GOOS=darwin GOARCH=amd64 go build -o my_go_project_darwin_amd64
+GOOS=darwin GOARCH=arm64 go build -o my_go_project_darwin_arm64
+GOOS=linux GOARCH=amd64 go build -o my_go_project_linux_amd64
+GOOS=linux GOARCH=arm go build -o my_go_project_linux_arm
+GOOS=linux GOARCH=arm64 go build -o my_go_project_linux_arm64
+GOOS=windows GOARCH=amd64 go build -o my_go_project_windows_amd64.exe
+GOOS=windows GOARCH=arm go build -o my_go_project_windows_arm.exe
+GOOS=windows GOARCH=arm64 go build -o my_go_project_windows_arm64.exe
